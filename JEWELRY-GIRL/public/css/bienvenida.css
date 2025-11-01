@@ -1,0 +1,113 @@
+/* Reset básico */
+
+/* === Jewelry Girl - Bienvenida === */
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #175ec2, #175ec2);
+  color: #f5efef;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  color: #e5c5ae;
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+}
+h4{
+  color: white;
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+}
+
+
+p {
+  color: #f5efef;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  max-width: 500px;
+  text-align: center;
+}
+
+.contenedor-botones {
+  display: flex;
+  gap: 1rem;
+}
+
+button {
+  background-color: #0e1faf;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(255, 105, 180, 0.3);
+}
+
+button:hover {
+  background-color: #0e1faf;
+  transform: translateY(-2px);
+}
+
+footer {
+  position: absolute;
+  bottom: 10px;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.bienvenida {
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.titulo {
+  font-family: "Dancing Script", cursive;
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: #ffffff;
+  text-shadow: 0px 0px 10px #ffffffcc;
+}
+
+.descripcion {
+  max-width: 500px;
+  margin: 0 auto 30px auto;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #e8e8e8;
+}
+
+/* Botones */
+.botones {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn {
+  text-decoration: none;
+  background: #2600ff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  transition: 0.3s;
+  margin-top: 20px;
+}
+
+.btn:hover {
+  background: #0018a8;
+}
+
