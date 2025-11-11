@@ -1,5 +1,6 @@
 /* ===== Diseño general ===== */
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -8,10 +9,12 @@ html, body {
   overflow: hidden; /* Evita scroll innecesario */
 }
 
+/* 💡 AJUSTE: El layout debe ser relativo para que el carrito flotante funcione */
 .compra-layout {
   display: flex;
   width: 100vw;
   height: 100vh;
+  position: relative; 
 }
 
 /* ===== Menú lateral verde ===== */
@@ -59,12 +62,15 @@ html, body {
   color: white;
 }
 
-/* ===== Botones inferiores ===== */
+/* ===== Antiguos botones inferiores: ESTOS YA NO SON NECESARIOS AQUÍ ===== */
+/* Si usas la versión de JS anterior, puedes eliminar .acciones de tu CSS. */
+/* Si mantienes .acciones en tu JS, puedes eliminar todo este bloque:
 .acciones {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
+*/
 
 .cerrar,
 .eliminar {
@@ -93,6 +99,17 @@ html, body {
   background-color: #1b5e20;
 }
 
+/* 💡 NUEVO: Contenedor para botones de sesión superior derecha */
+.acciones-top {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end; /* Alinea a la derecha */
+  margin-bottom: 20px;
+  /* IMPORTANTE: Usamos flex-start para que el contenido de la sección empiece abajo */
+  align-self: flex-start; 
+  width: 100%;
+}
+
 /* ===== Contenido principal ===== */
 .contenido-principal {
   flex: 1;
@@ -100,6 +117,9 @@ html, body {
   overflow-y: auto;
   background-color: #ffffff;
   box-sizing: border-box;
+  /* Hacemos el contenido principal flexbox para manejar el acciones-top */
+  display: flex;
+  flex-direction: column;
 }
 
 .contenido-principal h1 {
@@ -114,50 +134,94 @@ table {
   margin-top: 1rem;
 }
 
-th, td {
+th,
+td {
   padding: 10px;
   border-bottom: 1px solid #ccc;
   text-align: left;
 }
 
-/* ===== Lista de productos ===== */
+/* ===== Lista de productos - CONTENEDOR GRID */
 .lista-productos {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
 }
 
-.lista-productos li {
+/* ===== ÍTEMS DE PRODUCTOS */
+.producto-item {
   background: #eaf7ea;
-  margin: 8px 0;
-  padding: 10px 15px;
+  padding: 10px;
   border-radius: 5px;
   display: flex;
-  justify-content: space-between;
+  gap: 10px;
   align-items: center;
-}
-.boton-mapa {
-  display: inline-block;
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: background 0.3s ease;
-  margin-top: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.boton-mapa:hover {
-  background-color: #45a049;
+.producto-item:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
-/* Barra de búsqueda */
-.barra-busqueda {
+
+/* ESTILO ESPECÍFICO PARA PRODUCTOS EN OFERTA */
+.producto-oferta {
+  background: #fff3e0;
+  border: 2px solid #ff9800;
+}
+
+/* ESTILO PARA EL TEXTO DE OFERTA */
+.tag-oferta {
+  color: #d32f2f;
+  font-weight: 700;
+  margin-left: 5px;
+  text-shadow: 0 0 2px rgba(255, 0, 0, 0.2);
+}
+
+.producto-item img {
+  border-radius: 5px;
+}
+
+.producto-info h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.producto-info p {
+  margin: 2px 0;
+  font-size: 14px;
+}
+
+/* 💡 NUEVO: Contenedor de Búsqueda para la Lupa */
+.contenedor-busqueda {
+  position: relative;
   width: 100%;
-  padding: 8px 10px;
-  margin: 10px 0;
+  margin: 10px 0 20px 0;
+}
+
+/* 💡 AJUSTE: Estilo para el input de búsqueda que ya tenías */
+.barra-busqueda {
+  /* Hacemos espacio a la izquierda para el ícono */
+  padding: 8px 10px 8px 35px; 
+  /* Necesario para que el padding y el border no afecten el 100% de ancho */
+  width: calc(100% - 45px); 
   border-radius: 5px;
   border: 1px solid #ccc;
+}
+
+/* 💡 NUEVO: Posicionamiento de la Lupa */
+.icono-lupa {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 16px;
+  pointer-events: none; /* Asegura que no interfiera con el input */
 }
 
 /* Botones de filtros */
@@ -165,6 +229,7 @@ th, td {
   display: flex;
   gap: 10px;
   margin-bottom: 15px;
+  flex-wrap: wrap;
 }
 
 .filtros button {
@@ -185,34 +250,45 @@ th, td {
   color: white;
 }
 
-/* Productos */
-.lista-productos {
-  list-style: none;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
-}
-
-.producto-item {
-  background: #eaf7ea;
-  padding: 10px;
+/* Tienda física */
+.boton-mapa {
+  display: inline-block;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
   border-radius: 5px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s ease;
+  margin-top: 10px;
 }
 
-.producto-item img {
-  border-radius: 5px;
+.boton-mapa:hover {
+  background-color: #45a049;
 }
 
-.producto-info h3 {
-  margin: 0;
-  font-size: 16px;
+/* 4. 💡 NUEVO: Botón de Carrito Flotante */
+.boton-carrito {
+  position: fixed; 
+  bottom: 20px;
+  right: 20px;
+  background-color: #ff9800; /* Naranja llamativo */
+  color: white;
+  border: none;
+  border-radius: 50%; /* Botón circular */
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  line-height: 60px; /* Centra el contenido verticalmente */
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease, transform 0.2s ease;
+  z-index: 1000;
+  padding: 0; /* Elimina padding por defecto para mantener el círculo */
 }
 
-.producto-info p {
-  margin: 2px 0;
-  font-size: 14px;
+.boton-carrito:hover {
+  background-color: #e68900;
+  transform: scale(1.05);
 }

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import aretesorolaminado1 from "../assets/aretesrorolaminado1.png";
 import "../style/Compra.css";
 import { getAuth, signOut, deleteUser } from "firebase/auth";
 
+// 💡 Se mantiene la propiedad 'descuento' (boolean) en los productos.
 const productosData = [
   {
     id: 1,
@@ -9,7 +11,8 @@ const productosData = [
     categoria: "Aretes",
     material: "Oro Laminado",
     precio: 10,
-    imagen: "https://via.placeholder.com/100", // reemplaza con la URL real
+    imagen: aretesorolaminado1,
+    descuento: true, // Producto en oferta
   },
   {
     id: 2,
@@ -18,6 +21,7 @@ const productosData = [
     material: "Plata",
     precio: 25,
     imagen: "https://via.placeholder.com/100",
+    descuento: false, // Producto SIN oferta
   },
   {
     id: 3,
@@ -26,6 +30,7 @@ const productosData = [
     material: "Acero",
     precio: 30,
     imagen: "https://via.placeholder.com/100",
+    descuento: true, // Producto en oferta
   },
   {
     id: 4,
@@ -34,6 +39,7 @@ const productosData = [
     material: "Acero",
     precio: 20,
     imagen: "https://via.placeholder.com/100",
+    descuento: false, // Producto SIN oferta
   },
   {
     id: 5,
@@ -42,6 +48,7 @@ const productosData = [
     material: "Plata",
     precio: 15,
     imagen: "https://via.placeholder.com/100",
+    descuento: true, // Producto en oferta
   },
 ];
 
@@ -64,7 +71,7 @@ const Compra = () => {
     }
   };
 
-  // Filtrar productos por categoría y búsqueda
+  // Filtrar productos por categoría y búsqueda (para la vista "inicio")
   const productosFiltrados = productosData.filter((producto) => {
     const coincideCategoria =
       categoriaFiltro === "Todo" || producto.categoria === categoriaFiltro;
@@ -73,6 +80,11 @@ const Compra = () => {
       .includes(busqueda.toLowerCase());
     return coincideCategoria && coincideBusqueda;
   });
+
+  // Filtrar productos que tienen la propiedad descuento en true
+  const productosEnOferta = productosData.filter(
+    (producto) => producto.descuento
+  );
 
   return (
     <div className="compra-layout">
@@ -106,8 +118,12 @@ const Compra = () => {
             Tienda Física
           </button>
         </nav>
+      </aside>
 
-        <div className="acciones">
+      {/* 🛍 Contenido dinámico */}
+      <main className="contenido-principal">
+        {/* ⬆️ Botones de sesión movidos a la esquina superior derecha */}
+        <div className="acciones-top">
           <button className="cerrar" onClick={cerrarSesion}>
             Cerrar sesión
           </button>
@@ -115,23 +131,24 @@ const Compra = () => {
             Eliminar cuenta
           </button>
         </div>
-      </aside>
 
-      {/* 🛍 Contenido dinámico */}
-      <main className="contenido-principal">
         {vista === "inicio" && (
           <section>
-            <h1>Inicio / Compra</h1>
-            <p>Bienvenido a Jewelry, el sistema de apartado 💍</p>
+            <p>
+              Bienvenido a Jewelry, el sistema de apartado favorito en joyeria 💍
+            </p>
 
-            {/* Barra de búsqueda */}
-            <input
-              type="text"
-              placeholder="Buscar producto..."
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
-              className="barra-busqueda"
-            />
+            {/* Barra de búsqueda con ícono de lupa */}
+            <div className="contenedor-busqueda">
+              <span className="icono-lupa">🔍</span>
+              <input
+                type="text"
+                placeholder="Buscar producto..."
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+                className="barra-busqueda"
+              />
+            </div>
 
             {/* Botones de filtro */}
             <div className="filtros">
@@ -151,7 +168,12 @@ const Compra = () => {
             {/* Lista de productos */}
             <ul className="lista-productos">
               {productosFiltrados.map((producto) => (
-                <li key={producto.id} className="producto-item">
+                <li
+                  key={producto.id}
+                  className={`producto-item ${
+                    producto.descuento ? "producto-oferta" : ""
+                  }`}
+                >
                   <img
                     src={producto.imagen}
                     alt={producto.nombre}
@@ -165,6 +187,10 @@ const Compra = () => {
                     </p>
                     <p>
                       <strong>Precio:</strong> ${producto.precio}
+                      {/* Indicador visual de descuento */}
+                      {producto.descuento && (
+                        <span className="tag-oferta"> (¡Oferta!)</span>
+                      )}
                     </p>
                   </div>
                 </li>
@@ -176,15 +202,36 @@ const Compra = () => {
         {/* Ofertas */}
         {vista === "ofertas" && (
           <section>
-            <h1>Ofertas 💎</h1>
-            <ul className="lista-productos">
-              <li>
-                Aros oro laminado <span>$10</span>
-              </li>
-              <li>
-                Pulsera de acero <span>$20</span>
-              </li>
-            </ul>
+            <h1>Ofertas Especiales ✨</h1>
+            {productosEnOferta.length > 0 ? (
+              <ul className="lista-productos">
+                {productosEnOferta.map((producto) => (
+                  <li
+                    key={producto.id}
+                    className="producto-item producto-oferta"
+                  >
+                    <img
+                      src={producto.imagen}
+                      alt={producto.nombre}
+                      width={80}
+                      height={80}
+                    />
+                    <div className="producto-info">
+                      <h3>{producto.nombre}</h3>
+                      <p>
+                        <strong>Material:</strong> {producto.material}
+                      </p>
+                      <p>
+                        <strong>Precio:</strong> ${producto.precio}
+                        <span className="tag-oferta"> (¡En Descuento!)</span>
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No hay ofertas disponibles en este momento.</p>
+            )}
           </section>
         )}
 
@@ -237,6 +284,11 @@ const Compra = () => {
           </section>
         )}
       </main>
+
+      {/* 🛒 Carrito flotante (Botón) */}
+      <button className="boton-carrito" onClick={() => alert("Abriendo Carrito...")}>
+        🛒 Carrito
+      </button>
     </div>
   );
 };
