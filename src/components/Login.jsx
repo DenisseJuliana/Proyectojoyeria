@@ -31,7 +31,7 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, formData.correo, formData.contraseña);
       alert("Inicio de sesión exitoso ✅");
-      navigate("/"); // Redirige a Bienvenida
+      navigate("/compra"); // ✅ AHORA redirige a la vista principal (Compra)
     } catch (error) {
       alert("Error al iniciar sesión: " + error.message);
     }

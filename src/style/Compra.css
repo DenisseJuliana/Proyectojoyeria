@@ -1,0 +1,218 @@
+/* ===== Diseño general ===== */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  background-color: #f9f9f9;
+  overflow: hidden; /* Evita scroll innecesario */
+}
+
+.compra-layout {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* ===== Menú lateral verde ===== */
+.menu-lateral {
+  width: 240px;
+  background-color: #a8e6a3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.menu-lateral h2 {
+  text-align: center;
+  color: #2e2e2e;
+  margin-bottom: 1rem;
+}
+
+/* ===== Botones del menú ===== */
+.menu-opciones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.menu-opciones button {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 15px;
+  cursor: pointer;
+  color: #333;
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+}
+
+.menu-opciones button:hover {
+  background-color: #8fd88f;
+}
+
+.menu-opciones .activo {
+  background-color: #66bb6a;
+  color: white;
+}
+
+/* ===== Botones inferiores ===== */
+.acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cerrar,
+.eliminar {
+  border: none;
+  border-radius: 5px;
+  padding: 0.6rem;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.cerrar {
+  background-color: #4caf50;
+}
+
+.cerrar:hover {
+  background-color: #45a049;
+}
+
+.eliminar {
+  background-color: #2e7d32;
+}
+
+.eliminar:hover {
+  background-color: #1b5e20;
+}
+
+/* ===== Contenido principal ===== */
+.contenido-principal {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
+.contenido-principal h1 {
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+/* ===== Tabla de tickets ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  text-align: left;
+}
+
+/* ===== Lista de productos ===== */
+.lista-productos {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lista-productos li {
+  background: #eaf7ea;
+  margin: 8px 0;
+  padding: 10px 15px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.boton-mapa {
+  display: inline-block;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s ease;
+  margin-top: 10px;
+}
+
+.boton-mapa:hover {
+  background-color: #45a049;
+}
+/* Barra de búsqueda */
+.barra-busqueda {
+  width: 100%;
+  padding: 8px 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Botones de filtros */
+.filtros {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.filtros button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #a8e6a3;
+  transition: 0.3s;
+}
+
+.filtros button:hover {
+  background-color: #8fd88f;
+}
+
+.filtros .activo {
+  background-color: #66bb6a;
+  color: white;
+}
+
+/* Productos */
+.lista-productos {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.producto-item {
+  background: #eaf7ea;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.producto-item img {
+  border-radius: 5px;
+}
+
+.producto-info h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.producto-info p {
+  margin: 2px 0;
+  font-size: 14px;
+}
