@@ -9,7 +9,7 @@ const Bienvenida = () => {
         Bienvenida a <span>Jewelry</span>
       </h1>
       <p className="bienvenida-texto">
-        Una plataforma inspirada en la belleza, fuerza y brillo de las mujeres,
+        Es una plataforma inspirada en la belleza, fuerza y brillo de las mujeres,
         para reflejar tu esencia y acompañarte en cada momento especial.
       </p>
       <div className="bienvenida-botones">
