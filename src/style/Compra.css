@@ -292,3 +292,128 @@ td {
   background-color: #e68900;
   transform: scale(1.05);
 }
+/* --- Estilos para el Modal de Producto --- */
+
+/* Fondo oscuro que cubre toda la pantalla */
+.modal-overlay {
+  position: fixed; /* Fija la posición relativa a la ventana de visualización */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegura que esté por encima de todo lo demás */
+}
+
+/* El contenedor del modal (la ventanita pequeña) */
+.modal-producto {
+  background-color: rgb(213, 235, 255);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  width: 90%; /* Ancho en móviles */
+  max-width: 400px; /* Máximo ancho en escritorio */
+  max-height: 80vh; /* Para que quepa en la pantalla */
+  overflow-y: auto; /* Scroll si el contenido es muy largo */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Encabezado con el botón de volver */
+.modal-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.modal-header h2 {
+  flex-grow: 1; /* Permite que el título ocupe el espacio restante */
+  text-align: center;
+  margin: 0;
+}
+
+.boton-cerrar {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.boton-cerrar:hover {
+  background-color: #f0f0f0;
+}
+
+/* Cuerpo del modal (detalle del producto) */
+.modal-body {
+  text-align: center;
+}
+
+.modal-imagen {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.modal-body h3 {
+  margin-top: 0;
+  color: #000000; /* Color de tu marca */
+}
+
+.modal-precio {
+  font-size: 1.2em;
+  color: #cc0d0d; /* Precio resaltado */
+}
+
+.tag-oferta-modal {
+  background-color: #f5b9b9;
+  color: #333;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+/* Pie de página con el botón de carrito */
+.modal-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.boton-agregar-carrito {
+  background-color: #93c0f5; /* Un color de acción */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.boton-agregar-carrito:hover {
+  background-color: #c9ddf8;
+}
+
+/* Estilo para que el elemento de la lista sea clickeable (donde se agregó el onClick) */
+.producto-item {
+  cursor: pointer; /* Indica que es interactivo */
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.producto-item:hover {
+  transform: translateY(-3px); /* Efecto de elevación */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
