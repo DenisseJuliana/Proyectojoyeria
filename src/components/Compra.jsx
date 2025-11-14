@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import aretesorolaminado1 from "../assets/aretesrorolaminado1.png";
 import anillodeplata1 from "../assets/anillodeplata1.png";
+import collar1 from "../assets/collar1.png";
+import pulcera1 from "../assets/pulcera1.png";
+import arosplateados1 from "../assets/arosplateados1.png";
 import "../style/Compra.css"; 
 import { getAuth, signOut, deleteUser } from "firebase/auth";
 // 💡 Importar el componente de Notificación
@@ -22,7 +25,7 @@ const productosData = [
   },
   {
     id: 2,
-    nombre: "Anillo de plata",
+    nombre: "Anillo de plata  con estrella, zafiro azul",
     categoria: "Anillos",
     material: "Plata",
     precio: 25,
@@ -35,7 +38,7 @@ const productosData = [
     categoria: "Collares",
     material: "Acero",
     precio: 30,
-    imagen: "https://via.placeholder.com/100",
+    imagen: collar1,
     descuento: true, // Producto en oferta
   },
   {
@@ -44,7 +47,7 @@ const productosData = [
     categoria: "Pulseras",
     material: "Acero",
     precio: 20,
-    imagen: "https://via.placeholder.com/100",
+    imagen: pulcera1,
     descuento: false, // Producto SIN oferta
   },
   {
@@ -53,7 +56,7 @@ const productosData = [
     categoria: "Aretes",
     material: "Plata",
     precio: 15,
-    imagen: "https://via.placeholder.com/100",
+    imagen: arosplateados1,
     descuento: true, // Producto en oferta
   },
 ];
