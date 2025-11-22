@@ -2,31 +2,48 @@ import React from 'react';
 
 // Este componente Carrito.jsx gestiona la visualización y las acciones
 // del carrito, recibiendo todos los datos y funciones necesarios como props.
-const Carrito = ({ 
-    carrito, 
-    eliminarDelCarrito, 
-    volverACompra, 
+const Carrito = ({
+    carrito,
+    eliminarDelCarrito,
+    volverACompra,
     calcularTotal,
-    // 🆕 Nuevas props recibidas de Compra.jsx
+    // Props existentes
     formaPago,
     setFormaPago,
-    mostrarNotificacion 
+    mostrarNotificacion,
+    // Nueva prop para guardar el ticket y limpiar el carrito
+    guardarTicketYLimpiarCarrito 
 }) => {
-    
+
     // Función para manejar la finalización de la compra
     const finalizarCompra = () => {
         if (carrito.length === 0) {
-            // alert("No puedes finalizar la compra, el carrito está vacío."); // ❌ Reemplazado
-            mostrarNotificacion("No puedes finalizar la compra, el carrito está vacío.", 'error'); // ✅
+            mostrarNotificacion("No puedes finalizar la compra, el carrito está vacío.", 'error');
             return;
         }
-        // alert(`Compra finalizada por $${calcularTotal()} con ${formaPago}. ¡Gracias!`); // ❌ Reemplazado
-        mostrarNotificacion(`Compra finalizada por $${calcularTotal()} con ${formaPago}. ¡Gracias!`, 'exito'); // ✅
-        
-        // La lógica de limpieza del carrito debe estar en Compra.jsx,
-        // o si no se limpia, al menos se vuelve a la vista de compra.
-        volverACompra(); 
+
+        const totalCalculado = calcularTotal();
+        // Genera un ID simple y corto para el ticket
+        const ticketId = Math.random().toString(36).substring(2, 9).toUpperCase(); 
+
+        // 1. Crear el objeto del ticket con toda la información
+        const nuevoTicket = {
+            id: ticketId, // 🆕 AGREGAR ID para el nombre del archivo y referencia
+            fecha: new Date().toISOString(), // Usar ISO string para guardar fecha y hora exacta
+            total: totalCalculado,
+            formaPago: formaPago,
+            productos: carrito.map(p => ({
+                nombre: p.nombre,
+                precio: p.precio,
+                id: p.id,
+            })),
+        };
+
+        // 2. Guardar el ticket en el historial y limpiar el carrito
+        guardarTicketYLimpiarCarrito(nuevoTicket);
     };
+    
+    // ❌ La función imprimirTicket y su botón han sido eliminados de este archivo.
 
     return (
         <section className="seccion-carrito">
@@ -48,22 +65,21 @@ const Carrito = ({
                                 />
                                 <div className="info-carrito">
                                     <p>
-                                        **{producto.nombre}**
+                                        <strong>{producto.nombre}</strong>
                                         {producto.descuento && (
                                             <span className="tag-oferta"> (¡Oferta!)</span>
                                         )}
                                     </p>
                                     <p>
-                                        **Categoría:** {producto.categoria} | **Material:** {producto.material}
+                                        <strong>Categoría:</strong> {producto.categoria} | <strong>Material:</strong> {producto.material}
                                     </p>
                                     <p>
-                                        **Precio:** **${producto.precio}**
+                                        <strong>Precio:</strong> <strong>${producto.precio}</strong>
                                     </p>
                                 </div>
                                 <button
                                     className="boton-cancelar"
-                                    // 💡 eliminamos el id, solo pasamos el index como en Compra.jsx
-                                    onClick={() => eliminarDelCarrito(index)} 
+                                    onClick={() => eliminarDelCarrito(index)}
                                 >
                                     ❌ Cancelar
                                 </button>
@@ -72,22 +88,25 @@ const Carrito = ({
                     </ul>
 
                     <div className="resumen-carrito">
-                        <h3>Total a Pagar: **${calcularTotal()}**</h3>
+                        <h3>Total a Pagar: <strong>${calcularTotal()}</strong></h3>
 
+                        {/* Select para la Forma de Pago */}
                         <div className="forma-pago-container">
                             <label htmlFor="pago">Forma de Pago:</label>
-                            <select 
-                                id="pago" 
-                                value={formaPago} 
-                                // 💡 Usamos setFormaPago pasado por props
+                            <select
+                                id="pago"
+                                value={formaPago}
                                 onChange={(e) => setFormaPago(e.target.value)}
                             >
                                 <option value="Efectivo">Efectivo</option>
                                 <option value="Tarjeta">Tarjeta</option>
+                                <option value="Transferencia">Transferencia</option> 
                             </select>
                         </div>
+                        
+                        {/* ❌ BOTÓN DE ALERTA ELIMINADO */}
 
-                        <button 
+                        <button
                             className="boton-finalizar-compra"
                             onClick={finalizarCompra}
                         >
@@ -96,7 +115,7 @@ const Carrito = ({
                     </div>
                 </>
             )}
-            
+
             <button className="boton-volver-compra" onClick={volverACompra}>
                 ← Volver a Compra
             </button>

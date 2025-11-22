@@ -1,19 +1,27 @@
 import React, { useState } from "react";
+// 🖼️ Importaciones de imágenes
 import aretesorolaminado1 from "../assets/aretesrorolaminado1.png";
 import anillodeplata1 from "../assets/anillodeplata1.png";
 import collar1 from "../assets/collar1.png";
 import pulcera1 from "../assets/pulcera1.png";
 import arosplateados1 from "../assets/arosplateados1.png";
-import "../style/Compra.css"; 
+import "../style/Compra.css";
+
+// 🔐 Importaciones de Firebase Auth
 import { getAuth, signOut, deleteUser } from "firebase/auth";
-// 💡 Importar el componente de Notificación
-import Notificacion from './Notificacion'; 
-// 💡 Importar Carrito (si lo vas a usar como componente aparte)
-import Carrito from './Carrito'; 
+
+// 📦 Importaciones de Componentes
+import Notificacion from './Notificacion';
+import Carrito from './Carrito';
+import TicketPDF from './TicketPDF'; 
+
+// 🆕 IMPORTACIONES DE FIREBASE FIRESTORE
+// Asegúrate de que 'db' y 'serverTimestamp' se exporten desde tu archivo de configuración
+import { db, serverTimestamp } from '../firebase'; 
+import { collection, addDoc, doc, setDoc } from "firebase/firestore";
 
 
-// 💡 Se mantiene la propiedad 'descuento' (boolean) en los productos.
-const productosData = [
+const productosData = [ 
   {
     id: 1,
     nombre: "Aros oro laminado",
@@ -25,7 +33,7 @@ const productosData = [
   },
   {
     id: 2,
-    nombre: "Anillo de plata  con estrella, zafiro azul",
+    nombre: "Anillo de plata con estrella, zafiro azul",
     categoria: "Anillos",
     material: "Plata",
     precio: 25,
@@ -62,102 +70,168 @@ const productosData = [
 ];
 
 const Compra = () => {
-  const [vista, setVista] = useState("inicio");
-  const [categoriaFiltro, setCategoriaFiltro] = useState("Todo");
-  const [busqueda, setBusqueda] = useState("");
-  const [productoSeleccionado, setProductoSeleccionado] = useState(null);
-  // Estado para el carrito de compras (lista de productos)
-  const [carrito, setCarrito] = useState([]);
-  // Estado para la forma de pago en la vista del carrito
-  const [formaPago, setFormaPago] = useState("Efectivo");
+    // --- Estados de la Aplicación ---
+    const [vista, setVista] = useState("inicio");
+    const [categoriaFiltro, setCategoriaFiltro] = useState("Todo");
+    const [busqueda, setBusqueda] = useState("");
+    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+    const [carrito, setCarrito] = useState([]);
+    const [formaPago, setFormaPago] = useState("Efectivo");
+    // Almacena localmente los tickets generados
+    const [ticketsGuardados, setTicketsGuardados] = useState([]); 
 
-    // 🆕 Estado para la notificación flotante
+    // Estado para el ticket recién generado (usado en la vista de éxito)
+    const [lastTicket, setLastTicket] = useState(null); 
+    
+    // Estado para la notificación flotante
     const [notificacion, setNotificacion] = useState({
         mensaje: '',
         tipo: '', // 'exito', 'error', 'default'
     });
 
-  const auth = getAuth();
-    
-    // 🆕 Función para mostrar la notificación
+    const auth = getAuth();
+    // 💡 Obtener información del usuario actual para auditoría
+    const currentUser = auth.currentUser;
+    // Usamos el UID si está conectado, si no, un valor por defecto
+    const currentUserId = currentUser ? currentUser.uid : 'Anonimo_Desconectado';
+
+    // Función para mostrar la notificación
     const mostrarNotificacion = (mensaje, tipo = 'default') => {
         setNotificacion({ mensaje, tipo });
     };
 
+    // ----------------------------------------------------
+    // 🔑 FUNCIÓN PARA GUARDAR LA COMPRA EN FIRESTORE
+    // ----------------------------------------------------
+    const savePurchaseToFirestore = async (purchaseRecord) => {
+        try {
+            const comprasCollection = collection(db, "compras");
+            
+            // Añade el registro completo a la colección 'compras'
+            const docRef = await addDoc(comprasCollection, purchaseRecord);
+            console.log("Compra guardada en Firestore con ID:", docRef.id);
+            
+            mostrarNotificacion(`Ticket guardado en DB con ID: ${docRef.id.substring(0, 4)}...`, 'default');
+            
+        } catch (error) {
+            console.error("Error al guardar la compra en Firestore:", error);
+            mostrarNotificacion("Error al guardar el ticket en la base de datos.", 'error');
+        }
+    };
 
-  // --- Funciones de Sesión (alert reemplazado por mostrarNotificacion o mantenido si es necesario) ---
-  const cerrarSesion = async () => {
-    await signOut(auth);
-    mostrarNotificacion("Sesión cerrada correctamente", 'default'); // ✅
-  };
+    // --- Funciones de Sesión (sin cambios) ---
+    const cerrarSesion = async () => {
+        await signOut(auth);
+        mostrarNotificacion("Sesión cerrada correctamente", 'default');
+    };
 
-  const eliminarCuenta = async () => {
-    const usuario = auth.currentUser;
-    // Se mantiene el window.confirm por ser una acción destructiva de la cuenta
-    if (usuario && confirm("¿Seguro que deseas eliminar tu cuenta?")) { 
-      await deleteUser(usuario);
-      mostrarNotificacion("Cuenta eliminada.", 'default'); // ✅
+    const eliminarCuenta = async () => {
+        const usuario = auth.currentUser;
+        if (usuario && confirm("¿Seguro que deseas eliminar tu cuenta?")) {
+            await deleteUser(usuario);
+            mostrarNotificacion("Cuenta eliminada.", 'default');
+        }
+    };
+
+    // --- Funciones del Modal y Carrito ---
+    const abrirModalProducto = (producto) => {
+        setProductoSeleccionado(producto);
+    };
+
+    const cerrarModalProducto = () => {
+        setProductoSeleccionado(null);
+    };
+
+    const agregarAlCarrito = (producto) => {
+        setCarrito((prevCarrito) => [...prevCarrito, producto]);
+        mostrarNotificacion(`Se agregó "${producto.nombre}" al carrito!`, 'exito');
+        cerrarModalProducto();
+    };
+
+    const abrirCarrito = () => {
+        setVista("carrito");
+    };
+
+    const eliminarDelCarrito = (indexParaEliminar) => {
+        const nuevoCarrito = carrito.filter((_, index) => index !== indexParaEliminar);
+        setCarrito(nuevoCarrito);
+        mostrarNotificacion(`Producto eliminado del carrito.`, 'default');
+    };
+
+    const volverACompra = () => {
+        if (carrito.length > 0) {
+            mostrarNotificacion("Tu carrito se ha guardado. Puedes volver a él desde el botón Carrito.", 'default');
+        }
+        setVista("inicio");
+    };
+
+    const calcularTotal = () => {
+        return carrito.reduce((total, producto) => total + producto.precio, 0).toFixed(2);
+    };
+
+    const limpiarCarrito = () => {
+        setCarrito([]);
+        setFormaPago('Efectivo'); 
+    };
+
+    const volverAInicio = () => {
+        setLastTicket(null); 
+        setVista("inicio");
     }
-  };
 
-  // --- Funciones del Modal (sin cambios) ---
-  const abrirModalProducto = (producto) => {
-    setProductoSeleccionado(producto);
-  };
 
-  const cerrarModalProducto = () => {
-    setProductoSeleccionado(null);
-  };
+    // ----------------------------------------------------
+    // 🔑 FUNCIÓN PRINCIPAL DE FINALIZACIÓN DE COMPRA
+    // ----------------------------------------------------
+    const guardarTicketYLimpiarCarrito = (ticket) => {
+        // Obtenemos una marca de tiempo local para el campo fecha_compra (referencia legible)
+        const localTime = new Date().toISOString(); 
+        
+        // 1. Crear el objeto completo del ticket con campos de auditoría
+        const purchaseRecord = {
+            ...ticket, // ID local, total, productos, formaPago
+            
+            // 💡 Campos de Auditoría Requeridos:
+            id_usuario: currentUserId, 
+            usuarioregistro: currentUserId, 
+            fecha_compra: localTime, // Usamos la marca de tiempo local para esta referencia
+            
+            // Campos de auditoría de Base de Datos (usando serverTimestamp para precisión en Firestore)
+            fecha_creacion: serverTimestamp(), 
+            fechamodificaion: serverTimestamp(),
+            usuariomodifica: currentUserId,
+        };
 
-  // --- Funciones del Carrito 🛒 ---
+        // 2. 🔑 Guardar en Firebase (Asíncrono, se ejecuta en segundo plano)
+        savePurchaseToFirestore(purchaseRecord);
+        
+        // 3. Guardar el ticket en el historial local (para la vista 'tickets')
+        setTicketsGuardados((prevTickets) => [purchaseRecord, ...prevTickets]);
 
-  // 1. Agregar al Carrito (alert reemplazado por mostrarNotificacion)
-  const agregarAlCarrito = (producto) => {
-    setCarrito((prevCarrito) => [...prevCarrito, producto]);
-    mostrarNotificacion(`Se agregó "${producto.nombre}" al carrito!`, 'exito'); // ✅
-    cerrarModalProducto();
-  };
+        // 4. Guardar el ticket en el estado temporal para mostrar el PDF de éxito
+        setLastTicket(purchaseRecord); 
 
-  // 2. Abrir la vista del Carrito (Funciona correctamente)
-  const abrirCarrito = () => {
-    setVista("carrito");
-  };
+        // 5. Limpiar el carrito y cambiar la vista
+        limpiarCarrito();
+        setVista("compra-exitosa"); 
+        
+        mostrarNotificacion("Compra finalizada. Descarga tu ticket.", 'exito');
+    };
 
-  // 3. Eliminar Producto del Carrito (alert reemplazado por mostrarNotificacion)
-  const eliminarDelCarrito = (indexParaEliminar) => {
-    const nuevoCarrito = carrito.filter((_, index) => index !== indexParaEliminar);
-    setCarrito(nuevoCarrito);
-    mostrarNotificacion(`Producto eliminado del carrito.`, 'default'); // ✅
-  };
 
-  // 4. Volver a la Compra con confirmación (MODIFICADO: Eliminando window.confirm())
-  const volverACompra = () => {
-    // ❌ Se elimina window.confirm() para evitar la ventana de diálogo nativa.
-    if (carrito.length > 0) {
-      // Ahora, al regresar, el carrito se guarda automáticamente y solo se notifica.
-      mostrarNotificacion("Tu carrito se ha guardado. Puedes volver a él desde el botón Carrito.", 'default'); 
-    }
-    setVista("inicio");
-  };
+    // --- Filtrado de Productos (sin cambios) ---
+    const productosFiltrados = productosData.filter((producto) => {
+        const coincideCategoria =
+          categoriaFiltro === "Todo" || producto.categoria === categoriaFiltro;
+        const coincideBusqueda = producto.nombre
+          .toLowerCase()
+          .includes(busqueda.toLowerCase());
+        return coincideCategoria && coincideBusqueda;
+    });
 
-  // 5. Calcular el total (Funciona correctamente)
-  const calcularTotal = () => {
-    return carrito.reduce((total, producto) => total + producto.precio, 0).toFixed(2);
-  };
-
-  // --- Filtrado de Productos (sin cambios) ---
-  const productosFiltrados = productosData.filter((producto) => {
-    const coincideCategoria =
-      categoriaFiltro === "Todo" || producto.categoria === categoriaFiltro;
-    const coincideBusqueda = producto.nombre
-      .toLowerCase()
-      .includes(busqueda.toLowerCase());
-    return coincideCategoria && coincideBusqueda;
-  });
-
-  const productosEnOferta = productosData.filter(
-    (producto) => producto.descuento
-  );
+    const productosEnOferta = productosData.filter(
+        (producto) => producto.descuento
+    );
 
   return (
     <div className="compra-layout">
@@ -311,35 +385,68 @@ const Compra = () => {
           </section>
         )}
 
-        {/* Vista TICKETS */}
+        {/* Vista COMPRA EXITOSA (Muestra el botón de Descarga del PDF) */}
+        {vista === "compra-exitosa" && lastTicket && (
+            <section className="compra-exitosa">
+                <h1>¡Compra Finalizada con Éxito! 🎉</h1>
+                <p>
+                    Tu pedido ha sido procesado. Puedes descargar tu recibo de compra en
+                    formato **PDF** para imprimirlo o guardarlo.
+                </p>
+
+                <div className="pdf-container" style={{ margin: '20px 0', padding: '15px', border: '1px solid #ccc', borderRadius: '8px', textAlign: 'center' }}>
+                    {/* 👈 Aquí se usa el componente TicketPDF con el último ticket */}
+                    <TicketPDF ticket={lastTicket} /> 
+                </div>
+                
+                <p style={{ marginTop: '10px', fontSize: '14px', color: '#555' }}>
+                    También puedes encontrar este y todos tus tickets en la sección **Tickets** del menú lateral.
+                </p>
+                <button 
+                    className="boton-volver-compra" 
+                    onClick={volverAInicio} 
+                    style={{ marginTop: '20px' }}
+                >
+                    ← Volver a la Tienda
+                </button>
+            </section>
+        )}
+
+        {/* 🧾 Vista TICKETS - Ahora con el componente PDF */}
         {vista === "tickets" && (
           <section>
             <h1>Mis Tickets 🧾</h1>
-            <table>
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Total</th>
-                  <th>Método</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>10/10/25</td>
-                  <td>$80</td>
-                  <td>Efectivo</td>
-                </tr>
-                <tr>
-                  <td>05/10/25</td>
-                  <td>$45</td>
-                  <td>Tarjeta</td>
-                </tr>
-              </tbody>
-            </table>
+            {ticketsGuardados.length === 0 ? (
+                <p>Aún no tienes tickets de compra guardados.</p>
+            ) : (
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID Local</th>
+                      <th>Total</th>
+                      <th>Método</th>
+                      <th>Descarga</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {ticketsGuardados.map((ticket, index) => (
+                      <tr key={index}>
+                        <td>#{ticket.id}</td>
+                        <td>${ticket.total}</td>
+                        <td>{ticket.formaPago}</td>
+                        <td>
+                            {/* Usamos TicketPDF como un botón de descarga */}
+                            <TicketPDF ticket={ticket} buttonText="Descargar" /> 
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+            )}
           </section>
         )}
 
-        {/* Vista TIENDA FÍSICA */}
+        {/* Vista TIENDA FÍSICA - SIN CAMBIOS */}
         {vista === "tienda" && (
           <section>
             <h1>Tienda Física 🏬</h1>
@@ -360,24 +467,26 @@ const Compra = () => {
           </section>
         )}
 
-        {/* 🆕 Vista CARRITO DE COMPRAS - Ahora usa el componente Carrito.jsx */}
+        {/* 🆕 Vista CARRITO DE COMPRAS - Se pasa la prop de Firestore */}
         {vista === "carrito" && (
-            <Carrito 
-                carrito={carrito}
-                eliminarDelCarrito={eliminarDelCarrito}
-                volverACompra={volverACompra}
-                calcularTotal={calcularTotal}
-                formaPago={formaPago} // Pasar el estado de pago
-                setFormaPago={setFormaPago} // Pasar la función de actualización
-                mostrarNotificacion={mostrarNotificacion} // 🆕 Pasar la función de notificación
-            />
+          <Carrito
+            carrito={carrito}
+            eliminarDelCarrito={eliminarDelCarrito}
+            volverACompra={volverACompra}
+            calcularTotal={calcularTotal}
+            formaPago={formaPago}
+            setFormaPago={setFormaPago}
+            mostrarNotificacion={mostrarNotificacion}
+            // 🔑 Propiedad para guardar el ticket en estados y Firestore
+            guardarTicketYLimpiarCarrito={guardarTicketYLimpiarCarrito} 
+          />
         )}
       </main>
 
       {/* 🛒 Carrito flotante (Botón) */}
       <button
         className="boton-carrito"
-        onClick={abrirCarrito} 
+        onClick={abrirCarrito}
       >
         🛒 Carrito ({carrito.length})
       </button>
@@ -427,12 +536,12 @@ const Compra = () => {
         </div>
       )}
 
-        {/* 🆕 COMPONENTE DE NOTIFICACIÓN FLOTANTE */}
-        <Notificacion 
-            mensaje={notificacion.mensaje} 
-            tipo={notificacion.tipo} 
-            onClose={() => setNotificacion({ mensaje: '', tipo: '' })} 
-        />
+      {/* 🆕 COMPONENTE DE NOTIFICACIÓN FLOTANTE */}
+      <Notificacion
+        mensaje={notificacion.mensaje}
+        tipo={notificacion.tipo}
+        onClose={() => setNotificacion({ mensaje: '', tipo: '' })}
+      />
     </div>
   );
 };

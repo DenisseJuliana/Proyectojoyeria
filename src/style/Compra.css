@@ -1,419 +1,646 @@
-/* ===== Diseño general ===== */
+
+
 html,
 body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: "Poppins", sans-serif;
-  background-color: #f9f9f9;
-  overflow: hidden; /* Evita scroll innecesario */
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background-color: #f9f9f9;
+    overflow: hidden; /* Evita scroll innecesario en el body/html */
 }
 
-/* 💡 AJUSTE: El layout debe ser relativo para que el carrito flotante funcione */
 .compra-layout {
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  position: relative; 
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
 }
 
-/* ===== Menú lateral verde ===== */
+
+
 .menu-lateral {
-  width: 240px;
-  background-color: #a8e6a3;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 1rem;
-  box-sizing: border-box;
+    width: 240px;
+    background-color: #a8e6a3; /* Tonalidad de verde */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    box-sizing: border-box;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .menu-lateral h2 {
-  text-align: center;
-  color: #2e2e2e;
-  margin-bottom: 1rem;
+    text-align: center;
+    color: #2e2e2e;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
-/* ===== Botones del menú ===== */
 .menu-opciones {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    flex-grow: 1; /* Ocupa el espacio disponible */
 }
 
 .menu-opciones button {
-  background: none;
-  border: none;
-  text-align: left;
-  padding: 10px 12px;
-  font-size: 15px;
-  cursor: pointer;
-  color: #333;
-  border-radius: 5px;
-  transition: all 0.2s ease-in-out;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 10px 12px;
+    font-size: 15px;
+    cursor: pointer;
+    color: #333;
+    border-radius: 5px;
+    transition: all 0.2s ease-in-out;
 }
 
 .menu-opciones button:hover {
-  background-color: #8fd88f;
+    background-color: #8fd88f;
+    color: #1a1a1a;
 }
 
 .menu-opciones .activo {
-  background-color: #66bb6a;
-  color: white;
+    background-color: #66bb6a;
+    color: white;
+    font-weight: 600;
 }
 
-/* ===== Antiguos botones inferiores: ESTOS YA NO SON NECESARIOS AQUÍ ===== */
-/* Si usas la versión de JS anterior, puedes eliminar .acciones de tu CSS. */
-/* Si mantienes .acciones en tu JS, puedes eliminar todo este bloque:
-.acciones {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
+/*
+======================================
+===== Contenido principal (MAIN) =====
+======================================
 */
-
-.cerrar,
-.eliminar {
-  border: none;
-  border-radius: 5px;
-  padding: 0.6rem;
-  color: white;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.cerrar {
-  background-color: #4caf50;
-}
-
-.cerrar:hover {
-  background-color: #45a049;
-}
-
-.eliminar {
-  background-color: #2e7d32;
-}
-
-.eliminar:hover {
-  background-color: #1b5e20;
-}
-
-/* 💡 NUEVO: Contenedor para botones de sesión superior derecha */
-.acciones-top {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end; /* Alinea a la derecha */
-  margin-bottom: 20px;
-  /* IMPORTANTE: Usamos flex-start para que el contenido de la sección empiece abajo */
-  align-self: flex-start; 
-  width: 100%;
-}
-
-/* ===== Contenido principal ===== */
 .contenido-principal {
-  flex: 1;
-  padding: 2rem;
-  overflow-y: auto;
-  background-color: #ffffff;
-  box-sizing: border-box;
-  /* Hacemos el contenido principal flexbox para manejar el acciones-top */
-  display: flex;
-  flex-direction: column;
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto; /* Permite scroll solo en el contenido */
+    background-color: #ffffff;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 .contenido-principal h1 {
-  color: #333;
-  margin-bottom: 1.5rem;
+    color: #333;
+    margin-bottom: 1.5rem;
 }
 
-/* ===== Tabla de tickets ===== */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
+/*
+======================================
+===== Botones de Sesión (Top) =====
+======================================
+*/
+.acciones-top {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    align-self: flex-start;
+    width: 100%;
 }
 
-th,
-td {
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-  text-align: left;
+.cerrar,
+.eliminar {
+    border: none;
+    border-radius: 5px;
+    padding: 0.6rem 1rem;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
 
-/* ===== Lista de productos - CONTENEDOR GRID */
-.lista-productos {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
+.cerrar {
+    background-color: #4caf50;
 }
 
-/* ===== ÍTEMS DE PRODUCTOS */
-.producto-item {
-  background: #eaf7ea;
-  padding: 10px;
-  border-radius: 5px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.cerrar:hover {
+    background-color: #45a049;
 }
 
-.producto-item:hover {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-  transform: translateY(-2px);
+.eliminar {
+    background-color: #e57373; /* Rojo suave para eliminar */
 }
 
-/* ESTILO ESPECÍFICO PARA PRODUCTOS EN OFERTA */
-.producto-oferta {
-  background: #fff3e0;
-  border: 2px solid #ff9800;
+.eliminar:hover {
+    background-color: #d32f2f;
 }
 
-/* ESTILO PARA EL TEXTO DE OFERTA */
-.tag-oferta {
-  color: #d32f2f;
-  font-weight: 700;
-  margin-left: 5px;
-  text-shadow: 0 0 2px rgba(255, 0, 0, 0.2);
-}
-
-.producto-item img {
-  border-radius: 5px;
-}
-
-.producto-info h3 {
-  margin: 0;
-  font-size: 16px;
-}
-
-.producto-info p {
-  margin: 2px 0;
-  font-size: 14px;
-}
-
-/* 💡 NUEVO: Contenedor de Búsqueda para la Lupa */
+/*
+======================================
+===== Búsqueda y Filtros =====
+======================================
+*/
 .contenedor-busqueda {
-  position: relative;
-  width: 100%;
-  margin: 10px 0 20px 0;
+    position: relative;
+    width: 100%;
+    margin: 10px 0 20px 0;
 }
 
-/* 💡 AJUSTE: Estilo para el input de búsqueda que ya tenías */
 .barra-busqueda {
-  /* Hacemos espacio a la izquierda para el ícono */
-  padding: 8px 10px 8px 35px; 
-  /* Necesario para que el padding y el border no afecten el 100% de ancho */
-  width: calc(100% - 45px); 
-  border-radius: 5px;
-  border: 1px solid #ccc;
+    padding: 8px 10px 8px 35px;
+    width: calc(100% - 45px);
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
 }
 
-/* 💡 NUEVO: Posicionamiento de la Lupa */
 .icono-lupa {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  color: #666;
-  font-size: 16px;
-  pointer-events: none; /* Asegura que no interfiera con el input */
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #666;
+    font-size: 16px;
+    pointer-events: none;
 }
 
-/* Botones de filtros */
 .filtros {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-  flex-wrap: wrap;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
 }
 
 .filtros button {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #a8e6a3;
-  transition: 0.3s;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #a8e6a3;
+    transition: 0.3s;
+    font-size: 14px;
 }
 
 .filtros button:hover {
-  background-color: #8fd88f;
+    background-color: #8fd88f;
 }
 
 .filtros .activo {
-  background-color: #66bb6a;
-  color: white;
+    background-color: #66bb6a;
+    color: white;
+    font-weight: 600;
 }
 
-/* Tienda física */
-.boton-mapa {
-  display: inline-block;
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: background 0.3s ease;
-  margin-top: 10px;
+/*
+======================================
+===== Lista de Productos (GRID) =====
+======================================
+*/
+.lista-productos {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Mayor ancho */
+    gap: 20px;
 }
 
-.boton-mapa:hover {
-  background-color: #45a049;
-}
-
-/* 4. 💡 NUEVO: Botón de Carrito Flotante */
-.boton-carrito {
-  position: fixed; 
-  bottom: 20px;
-  right: 20px;
-  background-color: #ff9800; /* Naranja llamativo */
-  color: white;
-  border: none;
-  border-radius: 50%; /* Botón circular */
-  width: 60px;
-  height: 60px;
-  font-size: 24px;
-  line-height: 60px; /* Centra el contenido verticalmente */
-  text-align: center;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  transition: background 0.3s ease, transform 0.2s ease;
-  z-index: 1000;
-  padding: 0; /* Elimina padding por defecto para mantener el círculo */
-}
-
-.boton-carrito:hover {
-  background-color: #e68900;
-  transform: scale(1.05);
-}
-/* --- Estilos para el Modal de Producto --- */
-
-/* Fondo oscuro que cubre toda la pantalla */
-.modal-overlay {
-  position: fixed; /* Fija la posición relativa a la ventana de visualización */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); /* Fondo semi-transparente */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000; /* Asegura que esté por encima de todo lo demás */
-}
-
-/* El contenedor del modal (la ventanita pequeña) */
-.modal-producto {
-  background-color: rgb(213, 235, 255);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  width: 90%; /* Ancho en móviles */
-  max-width: 400px; /* Máximo ancho en escritorio */
-  max-height: 80vh; /* Para que quepa en la pantalla */
-  overflow-y: auto; /* Scroll si el contenido es muy largo */
-  display: flex;
-  flex-direction: column;
-}
-
-/* Encabezado con el botón de volver */
-.modal-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
-}
-
-.modal-header h2 {
-  flex-grow: 1; /* Permite que el título ocupe el espacio restante */
-  text-align: center;
-  margin: 0;
-}
-
-.boton-cerrar {
-  background: none;
-  border: none;
-  color: #333;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 5px 10px;
-  border-radius: 4px;
-}
-
-.boton-cerrar:hover {
-  background-color: #f0f0f0;
-}
-
-/* Cuerpo del modal (detalle del producto) */
-.modal-body {
-  text-align: center;
-}
-
-.modal-imagen {
-  width: 100%;
-  max-width: 150px;
-  height: auto;
-  border-radius: 4px;
-  margin-bottom: 15px;
-}
-
-.modal-body h3 {
-  margin-top: 0;
-  color: #000000; /* Color de tu marca */
-}
-
-.modal-precio {
-  font-size: 1.2em;
-  color: #cc0d0d; /* Precio resaltado */
-}
-
-.tag-oferta-modal {
-  background-color: #f5b9b9;
-  color: #333;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.9em;
-  margin-left: 10px;
-  font-weight: bold;
-}
-
-/* Pie de página con el botón de carrito */
-.modal-footer {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.boton-agregar-carrito {
-  background-color: #93c0f5; /* Un color de acción */
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1em;
-  font-weight: bold;
-  transition: background-color 0.3s;
-  width: 100%;
-}
-
-.boton-agregar-carrito:hover {
-  background-color: #c9ddf8;
-}
-
-/* Estilo para que el elemento de la lista sea clickeable (donde se agregó el onClick) */
 .producto-item {
-  cursor: pointer; /* Indica que es interactivo */
-  transition: transform 0.2s, box-shadow 0.2s;
+    background: #eaf7ea;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
 .producto-item:hover {
-  transform: translateY(-3px); /* Efecto de elevación */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+}
+
+.producto-oferta {
+    background: #fff3e0;
+    border: 2px solid #ff9800; /* Naranja para oferta */
+}
+
+.tag-oferta {
+    color: #d32f2f;
+    font-weight: 700;
+    margin-left: 5px;
+    text-shadow: 0 0 2px rgba(255, 0, 0, 0.2);
+    font-size: 0.9em;
+}
+
+.producto-item img {
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.producto-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    color: #2e2e2e;
+}
+
+.producto-info p {
+    margin: 2px 0;
+    font-size: 13px;
+    color: #555;
+}
+
+/*
+======================================
+===== Modal de Producto (Detalle) =====
+======================================
+*/
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-producto {
+    background-color: #e3f2fd; /* Azul muy claro para el modal */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    width: 90%;
+    max-width: 450px;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #bbdefb;
+    padding-bottom: 10px;
+}
+
+.modal-header h2 {
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+    color: #1e88e5;
+}
+
+.boton-cerrar {
+    background: #fff;
+    border: 1px solid #ccc;
+    color: #555;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.boton-cerrar:hover {
+    background-color: #e0e0e0;
+}
+
+.modal-body {
+    text-align: center;
+}
+
+.modal-imagen {
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+}
+
+.modal-body h3 {
+    margin-top: 0;
+    color: #0d47a1;
+}
+
+.modal-precio {
+    font-size: 1.4em;
+    color: #cc0d0d;
+    font-weight: 700;
+}
+
+.tag-oferta-modal {
+    background-color: #ffcdd2;
+    color: #d32f2f;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.9em;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.modal-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.boton-agregar-carrito {
+    background-color: #43a047; /* Verde de acción */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.1s;
+    width: 100%;
+}
+
+.boton-agregar-carrito:hover {
+    background-color: #388e3c;
+    transform: translateY(-1px);
+}
+
+/*
+======================================
+===== Tabla de Tickets (Vista Tickets) =====
+======================================
+*/
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden; /* Asegura que el borde redondo se aplique */
+}
+
+th {
+    background-color: #a8e6a3;
+    color: #333;
+    font-weight: 600;
+    padding: 12px 10px;
+    text-align: left;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+    font-size: 14px;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* Botón "Ver PDF" simulado en la tabla de tickets */
+td button {
+    background-color: #1e88e5; /* Azul para acción secundaria */
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: background-color 0.2s;
+}
+
+td button:hover {
+    background-color: #1565c0;
+}
+
+/*
+======================================
+===== Botón de Carrito Flotante =====
+======================================
+*/
+.boton-carrito {
+    position: fixed;
+    bottom: 30px; /* Separación del borde */
+    right: 30px; /* Separación del borde */
+    background-color: #ff9800; /* Naranja llamativo */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 14px; /* Cambiado de 24px para mejor visualización de texto */
+    line-height: 1; /* Ajuste para centrar */
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: background 0.3s ease, transform 0.2s ease;
+    z-index: 500;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.boton-carrito:hover {
+    background-color: #e68900;
+    transform: scale(1.1);
+}
+
+.boton-carrito span {
+    display: block;
+    font-size: 20px;
+}
+/*
+======================================
+===== Vista de Tienda Física =====
+======================================
+*/
+.boton-mapa {
+    display: inline-block;
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s ease;
+    margin-top: 10px;
+}
+
+.boton-mapa:hover {
+    background-color: #45a049;
+}
+
+
+/*
+======================================
+===== VISTA DEL CARRITO (SECTION) =====
+======================================
+*/
+.seccion-carrito {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.seccion-carrito h1 {
+    color: #4a148c; /* Morado fuerte */
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+/* Lista de ítems en el carrito */
+.lista-carrito {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.item-carrito {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    border: 1px solid #ede7f6; /* Borde morado muy claro */
+    border-radius: 8px;
+    background-color: #f7f3ff;
+}
+
+.imagen-carrito {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.info-carrito {
+    flex-grow: 1;
+}
+
+.info-carrito p {
+    margin: 2px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.info-carrito p strong {
+    color: #6a1b9a; /* Morado */
+}
+
+/* Botón de Cancelar/Eliminar ítem */
+.boton-cancelar {
+    background-color: #ff7043; /* Naranja rojizo para eliminar */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s;
+}
+
+.boton-cancelar:hover {
+    background-color: #e64a19;
+}
+
+/* Resumen del Carrito */
+.resumen-carrito {
+    padding: 20px;
+    border-top: 2px dashed #ce93d8; /* Línea de puntos morada */
+    text-align: right;
+}
+
+.resumen-carrito h3 {
+    font-size: 1.5rem;
+    color: #4a148c;
+    margin-bottom: 20px;
+}
+
+/* Forma de Pago (Select) */
+.forma-pago-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.forma-pago-container label {
+    font-weight: 600;
+    color: #6a1b9a;
+}
+
+.forma-pago-container select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ce93d8;
+    background-color: #fff;
+    font-size: 1em;
+}
+
+/* Botones de Acción Final */
+.boton-finalizar-compra {
+    background-color: #6a1b9a; /* Morado principal */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 700;
+    transition: background-color 0.3s;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.boton-finalizar-compra:hover {
+    background-color: #4a148c;
+}
+
+.boton-imprimir-ticket {
+    background-color: #1e88e5; /* Azul para impresión */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color 0.3s;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.boton-imprimir-ticket:hover {
+    background-color: #1565c0;
+}
+
+
+.boton-volver-compra {
+    background: none;
+    border: 1px solid #ccc;
+    color: #555;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 20px;
+    transition: background-color 0.2s;
+}
+
+.boton-volver-compra:hover {
+    background-color: #f0f0f0;
 }
