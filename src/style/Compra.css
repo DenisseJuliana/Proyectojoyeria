@@ -644,3 +644,16 @@ td button:hover {
 .boton-volver-compra:hover {
     background-color: #f0f0f0;
 }
+/* Dentro de Compra.css */
+
+.logo-aside {
+    padding: 15px 0;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0; /* Opcional: separador visual */
+    margin-bottom: 10px;
+}
+
+.logo-menu-lateral {
+    width: 80px; /* Ajusta el tamaño deseado para el logo en el menú */
+    height: auto;
+}

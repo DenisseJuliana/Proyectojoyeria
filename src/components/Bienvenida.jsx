@@ -1,10 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../style/Bienvenida.css";
+// 1. Importación del logo:
+import Logo from "../assets/Logo.png";
 
 const Bienvenida = () => {
   return (
     <div className="bienvenida-container">
+      {/* 2. Implementación del logo en una sección que puedes estilizar */}
+      <header className="bienvenida-header">
+        <Link to="/">
+          <img 
+            src={Logo} 
+            alt="Logo de Jewelry" 
+            className="bienvenida-logo" 
+          />
+        </Link>
+      </header>
+      
       <h1 className="bienvenida-titulo">
         Bienvenida a <span>Jewelry</span>
       </h1>

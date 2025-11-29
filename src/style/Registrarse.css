@@ -87,3 +87,13 @@ html, body {
   font-size: 0.8rem;
   font-style: italic;
 }
+/* Dentro de Registrarse.css */
+
+.registro-logo {
+    width: 100px; /* Ajusta el tamaño deseado */
+    height: auto;
+    margin-bottom: 20px;
+    display: block; 
+    margin-left: auto;
+    margin-right: auto;
+}

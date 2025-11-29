@@ -1,4 +1,8 @@
 import React from 'react';
+// 1. Importación del Logo (usando la ruta relativa correcta)
+import Logo from "../assets/Logo.png"; 
+import "../style/Carrito.css";
+
 
 // Este componente Carrito.jsx gestiona la visualización y las acciones
 // del carrito, recibiendo todos los datos y funciones necesarios como props.
@@ -47,7 +51,21 @@ const Carrito = ({
 
     return (
         <section className="seccion-carrito">
-            <h1>Mi Carrito de Compras 🛒</h1>
+            {/* 2. Implementación del logo en el encabezado */}
+            <div className="carrito-header">
+                <img 
+                    src={Logo} 
+                    alt="Logo de Jewelry" 
+                    className="carrito-logo" 
+                />
+                <h1>Mi Carrito de Compras 🛒</h1>
+            </div>
+            {/* FIN de Implementación del logo */}
+            
+            <button className="boton-volver-compra" onClick={volverACompra}>
+                ← Volver a Compra
+            </button>
+
             {carrito.length === 0 ? (
                 <p>Tu carrito está vacío. ¡Empieza a explorar nuestras joyas!</p>
             ) : (
@@ -116,9 +134,7 @@ const Carrito = ({
                 </>
             )}
 
-            <button className="boton-volver-compra" onClick={volverACompra}>
-                ← Volver a Compra
-            </button>
+            
         </section>
     );
 };

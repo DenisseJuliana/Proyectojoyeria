@@ -107,3 +107,13 @@ html, body {
 .registrarse-link:hover {
   color: #417cbf;
 }
+/* Dentro de Login.css */
+
+.login-logo {
+    width: 100px; /* Ajusta el tamaño deseado */
+    height: auto;
+    margin-bottom: 20px;
+    display: block; /* Para que ocupe todo el ancho y se centre */
+    margin-left: auto;
+    margin-right: auto;
+}

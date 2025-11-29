@@ -3,7 +3,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 // 🆕 Importaciones necesarias para Firestore
-import { getFirestore, serverTimestamp } from "firebase/firestore"; 
+import { getFirestore, serverTimestamp } from "firebase/firestore"; 
 
 const firebaseConfig = {
   apiKey: "AIzaSyAMrbphACHT2GBPm_1M7Rhqht6qCAFRbBI",
@@ -21,7 +21,7 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
 // ✅ ARREGLO: Inicializar y exportar la Base de Datos (Firestore)
-export const db = getFirestore(app); 
+export const db = getFirestore(app); 
 
 // ✅ ARREGLO: Exportar serverTimestamp
 export { serverTimestamp };

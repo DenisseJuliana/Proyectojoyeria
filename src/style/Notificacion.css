@@ -1,58 +1,74 @@
-/* Estilos para la notificación flotante (Toast/Snackbar) */
+/* src/style/Notificacion.css */
 
 .notificacion-container {
-  /* Posicionamiento fijo en la esquina superior derecha */
-  position: fixed; 
-  top: 20px;       
-  right: 20px;     
-  z-index: 1000;   /* Asegura que esté por encima de todo */
-  /* Animación: se desliza desde la derecha */
-  animation: slideIn 0.5s ease-out forwards;
+    /* ✅ SOLUCIÓN CLAVE: Posiciona el contenedor fijo en la parte superior derecha */
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999; /* Asegura que esté por encima de todo */
+    /* Permite apilar varias notificaciones si fuera el caso */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    pointer-events: none; /* Permite hacer clic a través del contenedor si no hay toasts */
 }
 
 .notificacion-toast {
-  color: white;
-  padding: 15px 25px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  font-weight: bold;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: bold;
+    margin-bottom: 10px; 
+    
+    /* ✅ CORRECCIÓN: Aplicar la animación al toast individual */
+    animation: slideIn 0.5s ease-out forwards;
+    
+    /* Restaurar la interacción para el toast */
+    pointer-events: all;
 }
 
 /* Tipos de notificación */
 .notificacion-default {
-  background-color: #34495e; /* Azul oscuro */
+    background-color: #34495e; /* Azul oscuro */
 }
 
 .notificacion-exito {
-  background-color: #27ae60; /* Verde éxito */
+    background-color: #27ae60; /* Verde éxito */
 }
 
 .notificacion-error {
-  background-color: #e74c3c; /* Rojo error */
+    background-color: #e74c3c; /* Rojo error */
 }
 
 /* Estilo del botón de cerrar */
 .cerrar-toast {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.5em;
-  cursor: pointer;
-  line-height: 1;
-  padding: 0 5px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 5px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.cerrar-toast:hover {
+    opacity: 1;
 }
 
 /* Animación de entrada */
 @keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+    from {
+        transform: translateX(100%); /* Comienza fuera de la pantalla a la derecha */
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0); /* Termina en su posición normal */
+        opacity: 1;
+    }
 }

@@ -1,0 +1,13 @@
+/* Dentro de Carrito.css */
+
+.carrito-header {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espacio entre el logo y el título */
+    margin-bottom: 20px;
+}
+
+.carrito-logo {
+    max-width: 80px; /* Tamaño más pequeño para el carrito */
+    height: auto;
+}

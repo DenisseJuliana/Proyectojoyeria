@@ -79,3 +79,16 @@ html, body {
   background-color: #aac5e7;
   color: white;
 }
+/* Dentro de Bienvenida.css */
+
+.bienvenida-logo {
+  max-width: 150px; /* Ajusta el ancho deseado */
+  height: auto;
+  margin-bottom: 20px; /* Espacio debajo del logo */
+}
+
+/* Opcional: Estilo para centrar el logo */
+.bienvenida-header {
+  text-align: center;
+  padding: 10px 0;
+}

@@ -20,13 +20,15 @@ const Notificacion = ({ mensaje, tipo, onClose }) => {
     const claseTipo = tipo ? `notificacion-${tipo}` : 'notificacion-default';
 
     return (
+        // ✅ CORRECCIÓN: El contenedor debe tener la clase principal para el position: fixed
         <div className="notificacion-container"> 
+            {/* El toast va dentro del contenedor */}
             <div className={`notificacion-toast ${claseTipo}`}>
                 <p>
                     {tipo === 'exito' ? '✅' : 'ℹ️'} {mensaje}
                 </p>
                 <button className="cerrar-toast" onClick={onClose}>
-                    &times;
+                    ×
                 </button>
             </div>
         </div>

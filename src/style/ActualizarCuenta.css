@@ -1,0 +1,89 @@
+/* src/style/ActualizarCuenta.css */
+.actualizar-cuenta-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.actualizar-cuenta-container h1 {
+    margin-bottom: 20px;
+    color: #4a4a4a;
+}
+
+.info-usuario {
+    background-color: #f0f8ff;
+    padding: 10px;
+    border-left: 4px solid #007bff;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+}
+
+.update-form label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.update-form input[type="text"],
+.update-form input[type="email"],
+.update-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Incluye padding en el ancho */
+}
+
+.alerta-seguridad {
+    font-size: 0.9em;
+    color: #d9534f;
+    padding: 10px;
+    border: 1px solid #d9534f;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.btn-actualizar {
+    background-color: #4CAF50; /* Verde */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1em;
+    margin-top: 20px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.btn-actualizar:hover {
+    background-color: #45a049;
+}
+
+.boton-volver {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    padding: 5px 0;
+    margin-bottom: 15px;
+    font-size: 1em;
+}
+
+.boton-volver:hover {
+    text-decoration: underline;
+}
+/* Dentro de ActualizarCuenta.css */
+
+.actualizar-header {
+    text-align: center; /* Para centrar el logo horizontalmente */
+    margin-bottom: 20px;
+}
+
+.actualizar-logo {
+    max-width: 120px; /* Ajusta el tamaño que desees */
+    height: auto;
+}
