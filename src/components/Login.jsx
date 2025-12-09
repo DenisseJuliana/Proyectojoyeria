@@ -100,12 +100,12 @@ const Login = ({ mostrarNotificacion }) => {
 
         <form className="login-form" onSubmit={handleSubmit}>
           {/* 🆕 Campo único para Nombre o Correo */}
-          <label htmlFor="identificador">Nombre o Correo</label>
+          <label htmlFor="identificador">Correo</label>
           <input
             type="text"
             id="identificador"
             name="identificador"
-            placeholder="Tu nombre de usuario o tu@email.com"
+            placeholder="Tu @gmail.com"
             value={formData.identificador}
             onChange={handleChange}
             required
