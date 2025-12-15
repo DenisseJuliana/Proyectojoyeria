@@ -7,6 +7,50 @@ import anillodeplata1 from "../assets/anillodeplata1.png";
 import collar1 from "../assets/collar1.png";
 import pulcera1 from "../assets/pulcera1.png";
 import arosplateados1 from "../assets/arosplateados1.png";
+import collaroro from "../assets/collaroro.png"
+import areteespiral from "../assets/areteespiral.png"
+import aretedecorazon from "../assets/aretedecorazon.png"
+import anillooro from "../assets/anillooro.png"
+import anilloflor from "../assets/anilloflor.png"
+import oropulsera from "../assets/oropulsera.png"
+import platapulsera from "../assets/platapulsera.png"
+import pulsera from "../assets/pulsera.png"
+import pulseracorazon from "../assets/pulseracorazon.png"
+import pulseraflor from "../assets/pulseraflor.png"
+import pulseraoro from "../assets/pulseraoro.png"
+import pulseraoroflor from "../assets/pulseraoroflor.png"
+import pulseraplatarosa from "../assets/pulseraplatarosa.png"
+import pulserarosa from "../assets/pulserarosa.png"
+import pulserazul from "../assets/pulserazul.png"
+import pulseraplata from "../assets/pulseraplata.png"
+import collar2 from "../assets/collar2.png"
+import collar3 from "../assets/collar3.png"
+import collar4 from "../assets/collar4.png"
+import collar5 from "../assets/collar5.png"
+import collar6 from "../assets/collar6.png"
+import collar7 from "../assets/collar7.png"
+import collar8 from "../assets/collar8.png"
+import collar9 from "../assets/collar9.png"
+import collar10 from "../assets/collar10.png"
+import collar11 from "../assets/collar11.png"
+import collar12 from "../assets/collar12.png"
+import collar13 from "../assets/collar13.png"
+import anillo2 from "../assets/anillo2.png"
+import anillo3 from "../assets/anillo3.png"
+import anillo4 from "../assets/anillo4.png"
+import anillo5 from "../assets/anillo5.png"
+import anillo6 from "../assets/anillo6.png"
+import anillo7 from "../assets/anillo7.png"
+import anillo8 from "../assets/anillo8.png"
+import aretes3 from "../assets/aretes3.png"
+import aretes4 from "../assets/aretes4.png"
+import aretes5 from "../assets/aretes5.png"
+import aretes6 from "../assets/aretes6.png"
+import aretes7 from "../assets/aretes7.png"
+import aretes8 from "../assets/aretes8.png"
+import aretes9 from "../assets/aretes9.png"
+
+
 import "../style/Compra.css"; // ⚠️ Asegúrate de que tu archivo CSS exista
 
 // 🆕 Importación del Logo
@@ -81,8 +125,389 @@ const productosData = [
     imagen: arosplateados1,
     descuento: true,
   },
-  
+{
+    id: 6,
+    nombre: "Collar de oro",
+    categoria: "Collares",
+    material: "Oro Laminado",
+    precio: 20,
+    imagen: collaroro,
+    descuento: false,
+  },
+   
+{
+    id: 7,
+    nombre: "Aretes",
+    categoria: "Aretes",
+    material: "Oro Laminado",
+    precio: 15,
+    imagen: aretes9,
+    descuento: false,
+  },
+{
+    id: 8,
+    nombre: "Arete espiral",
+    categoria: "Aretes",
+    material: "Oro Laminado",
+    precio: 10,
+    imagen: areteespiral,
+    descuento: true,
+  },
+{
+    id: 9,
+    nombre: "Aretes de corzon",
+    categoria: "Aretes",
+    material: "Oro Laminado",
+    precio: 20,
+    imagen: aretedecorazon,
+    descuento: false,
+  },
+{
+    id: 10,
+    nombre: "Anillo oro",
+    categoria: "Anillos",
+    material: "Oro",
+    precio: 20,
+    imagen: anillooro,
+    descuento: false,
+  },
+  {
+    id: 11,
+    nombre: "Anillo flor",
+    categoria: "Anillos",
+    material: "Oro",
+    precio: 10,
+    imagen: anilloflor,
+    descuento: true,
+  },
+{
+    id: 12,
+    nombre: "Pulsera de oro",
+    categoria: "Pulseras",
+    material: "Oro",
+    precio: 10,
+    imagen: oropulsera,
+    descuento: true,
+  },
+{
+    id: 13,
+    nombre: "Pulsera de plata",
+    categoria: "Pulseras",
+    material: "Plata",
+    precio: 10,
+    imagen: platapulsera,
+    descuento: true,
+  },
+{
+    id: 14,
+    nombre: "Pulsera",
+    categoria: "Pulseras",
+    material: "Oro",
+    precio: 10,
+    imagen: pulsera,
+    descuento: true,
+  },
+{
+    id: 15,
+    nombre: "Pulsera de corazon",
+    categoria: "Pulseras",
+    material: "Oro",
+    precio: 17,
+    imagen: pulseracorazon,
+    descuento: false,
+  },
+{
+    id: 16,
+    nombre: "Pulsera azul",
+    categoria: "Pulseras",
+    material: "Plata",
+    precio: 17,
+    imagen: pulseraflor,
+    descuento: false,
+  },
+{
+    id: 17,
+    nombre: "Pulsera de oro",
+    categoria: "Pulseras",
+    material: "Oro",
+    precio: 15,
+    imagen: pulseraoro,
+    descuento: false,
+  },
+{
+    id: 18,
+    nombre: "Pulsera de flor de oro",
+    categoria: "Pulseras",
+    material: "Oro",
+    precio: 10,
+    imagen: pulseraoroflor,
+    descuento: true,
+  },
+{
+    id: 19,
+    nombre: "Pulsera rosa",
+    categoria: "Pulseras",
+    material: "Oro",
+    precio: 15,
+    imagen: pulserarosa,
+    descuento: false,
+  },
+{
+    id: 20,
+    nombre: "Pulsera de plata con rosa",
+    categoria: "Pulseras",
+    material: "Plata",
+    precio: 27,
+    imagen: pulseraplatarosa,
+    descuento: false,
+  },
+{
+    id: 21,
+    nombre: "Pulsera con flores azules",
+    categoria: "Pulseras",
+    material: "Plata",
+    precio: 18,
+    imagen: pulserazul,
+    descuento: false,
+  },
+{
+id: 22,
+    nombre: "Pulsera de plata de trebol",
+    categoria: "Pulseras",
+    material: "Plata",
+    precio: 17,
+    imagen: pulseraplata,
+    descuento: false,
+  },
+{
+    id: 23,
+    nombre: "Collar plata con una perla",
+    categoria: "Collares",
+    material: "Plata",
+    precio: 10,
+    imagen: collar2,
+    descuento: true,
+  },
+{
+    id: 24,
+    nombre: "Collar con dije de corazon de plata",
+    categoria: "Collares",
+    material: "Plata",
+    precio: 15,
+    imagen: collar3,
+    descuento: true,
+  },
+{
+    id: 25,
+    nombre: "Collar de plata con dije",
+    categoria: "Collares",
+    material: "Plata",
+    precio: 20,
+    imagen: collar5,
+    descuento: false,
+  },
+{
+    id: 26,
+    nombre: "Collar de corazon de plata",
+    categoria: "Collares",
+    material: "Plata",
+    precio: 19,
+    imagen: collar6,
+    descuento: false,
+  },
+{
+    id: 27,
+    nombre: "Collar de oro con dos corazones",
+    categoria: "Collares",
+    material: "Oro",
+    precio: 18,
+    imagen: collar4,
+    descuento: false,
+  },
+{
+    id: 28,
+    nombre: "Collar de oro elegante",
+    categoria: "Collares",
+    material: "Oro",
+    precio: 30,
+    imagen: collar7,
+    descuento: false,
+  },
+{
+    id: 29,
+    nombre: "Collar de plata con dije elegante",
+    categoria: "Collares",
+    material: "Plata",
+    precio: 19,
+    imagen: collar8,
+    descuento: false,
+  },
+{
+    id: 30,
+    nombre: "Collar de oro con dije circular",
+    categoria: "Collares",
+    material: "Oro",
+    precio: 18,
+    imagen: collar9,
+    descuento: false,
+  },
+{
+    id: 31,
+    nombre: "Collar de corazon ",
+    categoria: "Collares",
+    material: "Plata",
+    precio: 17,
+    imagen: collar10,
+    descuento: false,
+  },
+{
+    id: 32,
+    nombre: "Collar con dije elegante de oro",
+    categoria: "Collares",
+    material: "Oro",
+    precio: 18,
+    imagen: collar11,
+    descuento: true,
+  },
+{
+    id: 33,
+    nombre: "Collar cisne negro de oro",
+    categoria: "Collares",
+    material: "Oro",
+    precio: 25,
+    imagen: collar12,
+    descuento: false,
+  },
+{
+    id: 34,
+    nombre: "Collar con dije morado",
+    categoria: "Collares",
+    material: "Plata",
+    precio: 18,
+    imagen: collar13,
+    descuento: true,
+  },
+{
+    id: 35,
+    nombre: "Anillo con de plata con diamante",
+    categoria: "Anillos",
+    material: "Plata",
+    precio: 18,
+    imagen: anillo2,
+    descuento: false,
+  },
+
+{
+    id: 36,
+    nombre: "Anillo de plata",
+    categoria: "Anillos",
+    material: "Plata",
+    precio: 15,
+    imagen: anillo3,
+    descuento: true,
+  },
+{
+    id: 37,
+    nombre: "Anillo de plata con diamantes ",
+    categoria: "Anillos",
+    material: "Plata",
+    precio: 25,
+    imagen: anillo4,
+    descuento: false,
+  },
+{
+    id: 38,
+    nombre: "Anillo de oro con diamante de corazon",
+    categoria: "Anillos",
+    material: "Oro",
+    precio: 13,
+    imagen: anillo5,
+    descuento: true,
+  },
+{
+    id: 39,
+    nombre: "Anillo de plata con diseño elegante",
+    categoria: "Anillos",
+    material: "Plata",
+    precio: 35,
+    imagen: anillo6,
+    descuento: false,
+  },
+{
+    id: 40,
+    nombre: "Anillo de oro con forma de corazon",
+    categoria: "Anillos",
+    material: "Oro",
+    precio: 17,
+    imagen: anillo7,
+    descuento: true,
+  },
+{
+    id: 41,
+    nombre: "Anillo de diamante",
+    categoria: "Anillos",
+    material: "Plata",
+    precio: 18,
+    imagen: anillo8,
+    descuento: false,
+  },
+{
+    id: 42,
+    nombre: "Aretes de diamante azul",
+    categoria: "Aretes",
+    material: "Plata",
+    precio: 19,
+    imagen: aretes3,
+    descuento: false,
+  },
+{
+    id: 43,
+    nombre: "Aretes de oro circulares",
+    categoria: "Aretes",
+    material: "Oro",
+    precio: 18,
+    imagen: aretes4,
+    descuento: false,
+  },
+{
+    id: 44,
+    nombre: "Aretes de plata circulares en espiral",
+    categoria: "Aretes",
+    material: "Plata",
+    precio: 15,
+    imagen: aretes5,
+    descuento: true,
+  },
+{
+    id: 45,
+    nombre: "Aretes de diamante rosa",
+    categoria: "Aretes",
+    material: "Plata",
+    precio: 17,
+    imagen: aretes6,
+    descuento: false,
+  },
+{
+    id: 46,
+    nombre: "Aretes de diamante",
+    categoria: "Aretes",
+    material: "Plata",
+    precio: 16,
+    imagen: aretes7,
+    descuento: false,
+  },
+{
+    id: 47,
+    nombre: "Aretes de oro en forma de flor",
+    categoria: "Aretes",
+    material: "Oro",
+    precio: 20,
+    imagen: aretes8,
+    descuento: true,
+  },
+
 ];
+
 
 const Compra = ({ mostrarNotificacion }) => {
   const navigate = useNavigate();
