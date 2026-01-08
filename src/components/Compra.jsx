@@ -1020,10 +1020,10 @@ const Compra = ({ mostrarNotificacion }) => {
           <section>
             <h1>Tienda Física 🏬</h1>
             <p>
-              <strong>Dirección:</strong> Calle Legua n.06 Tecamac Centro
+              <strong>Dirección:</strong> Cecytem Tecamac Centro
             </p>
             <p>
-              <strong>Horario:</strong> Lunes a sábado 9:00 AM - 6:00 PM
+              <strong>Horario:</strong> Lunes a viernes 9:00 AM - 6:00 PM
             </p>
             <a
               href="https://www.google.com/maps/place/Cecytem+Plantel+Tec%C3%A1mac/@19.723988,-98.97122,17z/data=!4m6!3m5!1s0x85d1924db880b35f:0xf570ece6fd6cee96!8m2!3d19.7241211!4d-98.9713088!16s%2Fg%2F1tg8k1p9?hl=es-419&entry=ttu&g_ep=EgoyMDI1MTEwNS4wIKXMDSoASAFQAw%3D%3D"
